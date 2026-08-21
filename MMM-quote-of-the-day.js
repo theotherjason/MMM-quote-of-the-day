@@ -13,7 +13,7 @@ Module.register('MMM-quote-of-the-day', {
         console.log("Starting module: " + this.name);
 
         // init the node helper
-        let quoteApiURL = "https://quotes-api-self.vercel.app/quote";
+        let quoteApiURL = "https://zenquotes.io/api/random";
         let payload = {
             url: quoteApiURL,
             language: this.config.language
