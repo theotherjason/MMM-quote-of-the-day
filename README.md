@@ -2,6 +2,11 @@
 
 Module to get a random quote from various authorship.
 
+> **Fork note.**  The original repo ([Sispheor/MMM-quote-of-the-day](https://github.com/Sispheor/MMM-quote-of-the-day))
+> is archived, and the API it was migrated to in early 2025 has since gone
+> offline, leaving the module stuck on "Loading" forever.  This fork points at
+> [ZenQuotes](https://zenquotes.io) and handles either response shape.
+
 This module is based on the [Quotes API](https://github.com/well300/quotes-api).
 Quotes are only available in English but they can be translated on the fly in the language of your choice. The translation is based on the Google API.
 The quote is renewed following a configurable update interval.
@@ -79,3 +84,20 @@ Here is an example of usage via [Kalliope assistant](https://github.com/kalliope
 ```
 
 See an [example video here](https://youtu.be/eWxtJsHDU2o).
+
+## Testing
+
+The module fetches once per `updateInterval` (default one day), so a restart
+isn't enough to see a change.  To force a new quote immediately:
+
+    curl -H "Content-Type: application/json" \
+         -X POST \
+         -d '{"notification":"QUOTE-OF-THE-DAY", "payload": "getNewQuote"}' \
+         http://localhost:8080/quote-of-the-day
+
+Worth keeping as a shell alias:
+
+    alias newquote='curl -s -H "Content-Type: application/json" -X POST -d "{\"notification\":\"QUOTE-OF-THE-DAY\", \"payload\": \"getNewQuote\"}" http://localhost:8080/quote-of-the-day'
+
+Note that MagicMirror's `ipWhitelist` applies to this endpoint, so calling it
+from another machine requires that address to be whitelisted in `config.js`.
